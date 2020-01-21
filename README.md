@@ -4,12 +4,6 @@
 
 현재 1.3이 최종버전이며, 2.0 버전은 마일스톤 상태로 1.3 기준으로 작성합니다.
 
-* https://github.com/spockframework/spock
-* https://www.baeldung.com/spring-spock-testing
-* https://d2.naver.com/helloworld/568425
-http://woowabros.github.io/study/2018/03/01/spock-test.html
-* http://woowabros.github.io/experience/2019/12/16/quickly-get-feedback-on-your-test-with-spock-extension-and-es-kibana.html
-
 ## 1. 왜 spock 을 사용하는가?
 
 spock 을 사용하기에 앞서 BDD에 대해서 간단하게 알아보겠습니다.
@@ -22,7 +16,9 @@ BDD(Behaviour-Driven Development)와 TDD(Test-Driven Development)는 거의 차�
 
 물론 junit에도 BDD 스타일에 테스트 케이스 작성이 가능하지만, spock 은 프레임워크 자체에서 지원이 junit 보다 더 강력하고 소스코드가 직관적입니다.
 
-## 2. maven 설
+## 2. maven 설정
+
+### 2.1 dependency 설정
 
 spring 에서 spock을 사용하기 위해서는 maven 기준으로 아래 의존성이 필요합니다.
 
@@ -61,4 +57,56 @@ spring 에서 spock을 사용하기 위해서는 maven 기준으로 아래 의�
 </dependency>
 ```
 
-## plugin 설정
+### 2.2 plugin 설정
+
+groovy로 컴파일하기 위한 plugin 설정이 필요함. 
+
+```xml
+<!-- Mandatory plugins for using Spock -->
+<plugin>
+    <!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin,
+    visit https://github.com/groovy/GMavenPlus/wiki -->
+    <groupId>org.codehaus.gmavenplus</groupId>
+    <artifactId>gmavenplus-plugin</artifactId>
+    <version>1.6</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>compile</goal>
+                <goal>compileTests</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+<!-- Optional plugins for using Spock -->
+```
+
+### 2.3 repository 설정
+
+spock 을 관리하는 repository 를 설정해줘야 한다.
+
+```xml
+<repository>
+    <id>spock-snapshots</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
+</repository>
+```
+
+## 3. 사용법
+
+아래 공식문서와 블로그 참조 
+
+* http://spockframework.org/spock/docs/1.3/index.html
+* https://ijbgo.tistory.com/12?category=638175
+* https://jojoldu.tistory.com/229 
+
+## 참고
+
+* https://github.com/spockframework/spock
+* https://www.baeldung.com/spring-spock-testing
+* https://d2.naver.com/helloworld/568425
+* http://woowabros.github.io/study/2018/03/01/spock-test.html
+* http://woowabros.github.io/experience/2019/12/16/quickly-get-feedback-on-your-test-with-spock-extension-and-es-kibana.html
