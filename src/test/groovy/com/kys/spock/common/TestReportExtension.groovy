@@ -20,7 +20,7 @@ class TestReportExtension implements IGlobalExtension{
 
     @Override
     void start() {
-        log.info("version {} test start", version)
+        log.info("version : {} test start", version)
     }
 
     @Override

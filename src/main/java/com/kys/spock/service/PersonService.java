@@ -44,16 +44,9 @@ public class PersonService {
      * @return
      */
     public DataResponse<PersonDTO> findByName(String name){
-        PersonDTO dto = repository.findByName(name)
-                                  .map(person -> {
-                                      return new PersonDTO(person.getId(), person.getName(), person.getAddress(), person.getAge());
-                                  })
-                                  .orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."))
-                                  ;
-
-        return DataResponse.ok(dto);
+        return repository.findByName(name)
+                         .map(PersonDTO::of)
+                         .map(DataResponse::ok)
+                         .orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.kys.spock.model;
 
+import com.kys.spock.domain.Person;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -24,5 +25,9 @@ public class PersonDTO {
         this.name = name;
         this.address = address;
         this.age = age;
+    }
+
+    public static PersonDTO of(Person person){
+        return new PersonDTO(person.getId(), person.getName(), person.getAddress(), person.getAge());
     }
 }

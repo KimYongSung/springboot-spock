@@ -15,6 +15,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> error(Exception e){
-        return ResponseEntity.status(500).body(Response.error(ErrorCode.CD_0000));
+        return ResponseEntity.status(500).body(Response.error(ErrorCode.CD_S999));
     }
 }
