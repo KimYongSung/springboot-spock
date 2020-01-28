@@ -15,7 +15,7 @@
 	<description>spock과 maven 을 활용한 테스트 환경 설정</description>
 
 	<properties>
-		<java.version>8</java.version>
+		<java.version>1.8</java.version>
 		<jvm.options>-Dproject.name=${project.name}</jvm.options>
 	</properties>
 
@@ -77,23 +77,12 @@
 		</dependency>
 
 		<!-- Optional dependencies for using Spock -->
-		<!--<dependency> &lt;!&ndash; use a specific Groovy version rather than the one specified by spock-core &ndash;&gt;
+		<dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>2.5.7</version>
 			<type>pom</type>
 		</dependency>
-		<dependency> &lt;!&ndash; enables mocking of classes (in addition to interfaces) &ndash;&gt;
-			<groupId>net.bytebuddy</groupId>
-			<artifactId>byte-buddy</artifactId>
-			<version>1.9.7</version>
-		</dependency>
-		<dependency> &lt;!&ndash; enables mocking of classes without default constructor (together with CGLIB) &ndash;&gt;
-			<groupId>org.objenesis</groupId>
-			<artifactId>objenesis</artifactId>
-			<version>2.6</version>
-			<scope>test</scope>
-		</dependency>-->
 
 	</dependencies>
 
@@ -123,7 +112,7 @@
                 visit https://github.com/groovy/GMavenPlus/wiki -->
 				<groupId>org.codehaus.gmavenplus</groupId>
 				<artifactId>gmavenplus-plugin</artifactId>
-				<version>1.6.2</version>
+				<version>1.8.1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -132,16 +121,6 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<testSources>
-						<testSource>
-							<directory>${project.basedir}/src/test/groovy</directory>
-							<includes>
-								<include>**/*.groovy</include>
-							</includes>
-						</testSource>
-					</testSources>
-				</configuration>
 			</plugin>
 			<!-- Optional plugins for using Spock -->
 

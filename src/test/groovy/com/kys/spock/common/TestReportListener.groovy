@@ -113,16 +113,15 @@ class TestReportListener extends AbstractRunListener{
 
         String description = spec instanceof SpecInfo ? spec.getNarrative() : ((IterationInfo)spec).getName()
 
-        TestReport report = TestReport.builder()
-                                      .project(projectName)
-                                      .pkg(pkg)
-                                      .version(version)
-                                      .testClass(fileName)
-                                      .status(status)
-                                      .executeTime(LocalDateTime.now())
-                                      .throwable(ex)
-                                      .description(description)
-                                      .build()
+        TestReport report = new TestReport()
+        report.setProject(projectName)
+        report.setPkg(pkg)
+        report.setVersion(version)
+        report.setTestClass(fileName)
+        report.setStatus(status)
+        report.setExecuteTime(LocalDateTime.now())
+        report.setThrowable(ex)
+        report.setDescription(description)
 
         log.info(report.toString())
     }

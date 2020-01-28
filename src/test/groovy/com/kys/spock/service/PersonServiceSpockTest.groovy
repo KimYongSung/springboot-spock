@@ -4,33 +4,34 @@ import com.kys.spock.common.result.DataResponse
 import com.kys.spock.domain.Person
 import com.kys.spock.domain.repository.PersonRepository
 import com.kys.spock.model.PersonDTO
-import org.springframework.beans.factory.annotation.Autowired
+import org.spockframework.spring.SpringBean
+import org.spockframework.spring.SpringSpy
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import spock.lang.Narrative
 import spock.lang.Specification
-
-import static org.mockito.ArgumentMatchers.eq
-import static org.mockito.BDDMockito.given
 
 /**
  *
  * @author kody.kim
  * @since 20/01/2020
  */
+@Narrative( value = """
+    PersonService 테스트 
+"""
+)
 @SpringBootTest
 class PersonServiceSpockTest extends Specification {
 
-    @Autowired
+    @SpringSpy
     private PersonService personService;
 
-    @MockBean
-    private PersonRepository personRepository;
+    @SpringBean
+    private PersonRepository personRepository = Stub();
 
     def "person 이름으로 조회"(){
         
         given: "특정 name으로 조회 요청시 동일한 name 의 사용자 정보를 리턴하겠다."
-        given(personRepository.findByName(eq(name)))
-                .willReturn(Optional.of(new Person(name, address, age)));
+        personRepository.findByName(name) >> Optional.of(new Person(name, address, age))
 
         when: "특정 name으로 고객정보 조회"
         DataResponse<PersonDTO> response = personService.findByName(name);
@@ -52,11 +53,10 @@ class PersonServiceSpockTest extends Specification {
 
         given: "특정 name으로 조회 요청시 null을 리턴하겠다."
         def name = "kody.kim";
-        given(personRepository.findByName(eq(name)))
-                .willReturn(Optional.empty());
+        personRepository.findByName(name) >> Optional.empty()
 
         when: "특정 name으로 고객정보 조회"
-        DataResponse<PersonDTO> response = personService.findByName(name);
+        personService.findByName(name);
 
         then: "조회된 고객정보 검증"
         def e = thrown(IllegalArgumentException.class)

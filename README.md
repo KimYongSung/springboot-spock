@@ -8,7 +8,7 @@ spock 을 설명하기 앞서서 BDD에 대해서 간략하게 설명을 하겠�
 
 ## 1. BDD는 어떤건가?
 
-BDD(Behaviour-Driven Development)와 TDD(Test-Driven Development)는 거의 차이가 없습니다.
+우선 BDD(Behaviour-Driven Development)와 TDD(Test-Driven Development)는 거의 차이가 없습니다.
 
 차이가 있다면 BDD는 행위기반 테스트로 TDD와 다르게 ``given, when, then`` 구조를 가지는 것을 기본 패턴으로 권장합니다.
 
@@ -22,7 +22,7 @@ BDD(Behaviour-Driven Development)와 TDD(Test-Driven Development)는 거의 차�
 
 > 테스트 대상은 A 상태에서 출발하며(Given) 어떤 상태 변화를 가했을 때(When) 기대하는 상태로 완료되어야 한다. (Then) 또는 Side Effect가 전혀 없는 테스트 대상이라면 테스트 대상의 환경을 A 상태에 두고(Given) 어떤 행동을 요구했을 때(When) 기대하는 결과를 돌려받아야 한다. (Then)
 
-도메인별 BDD 구조의 시나리오 기반에 테스트 메소드는 그 자체로도 업무를 내포하는 훌륭한 인수인계 문서가 될 수 있습니다.
+도메인별 BDD 구조를 바탕으로 작성된 테스트 메소드는 그 자체로도 업무를 내포하는 훌륭한 인수인계 문서가 될 수 있습니다.
 
 ## 2. 왜 spock 을 사용하는가?
 
@@ -150,22 +150,11 @@ spring 에서 spock을 사용하기 위해서는 maven 기준으로 아래 의�
     <version>2.5.7</version>
     <type>pom</type>
 </dependency>
-<dependency> <!-- enables mocking of classes (in addition to interfaces) -->
-    <groupId>net.bytebuddy</groupId>
-    <artifactId>byte-buddy</artifactId>
-    <version>1.9.7</version>
-</dependency>
-<dependency> <!-- enables mocking of classes without default constructor (together with CGLIB) -->
-    <groupId>org.objenesis</groupId>
-    <artifactId>objenesis</artifactId>
-    <version>2.6</version>
-    <scope>test</scope>
-</dependency>
 ```
 
 ### 3.2 plugin 설정
 
-groovy로 컴파일하기 위한 plugin 설정이 필요함. 
+groovy로 컴파일하기 위한 plugin 설정이 필요합니다.
 
 ```xml
 <!-- Mandatory plugins for using Spock -->
@@ -208,8 +197,6 @@ spock 을 관리하는 repository 를 설정해줘야 한다.
 * http://spockframework.org/spock/docs/1.3/index.html
 * https://ijbgo.tistory.com/12?category=638175
 * https://jojoldu.tistory.com/229 
-
-## 4. spock의 GlobalExtension 과 AbstractRunListener 설정
 
 ## 참고
 
