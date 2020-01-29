@@ -28,8 +28,6 @@ class PersonRepositorySpockTest extends Specification{
 
         given:
         repository.save(new Person("kody.kim", "서울시 강북구 수유동" , 32))
-        repository.save(new Person("kody.kim1", "서울시 강북구 수유동1" , 31))
-        repository.save(new Person("kody.kim2", "서울시 강북구 수유동2" , 32))
 
         when:
         Optional<Person> optionalPerson = repository.findByName("kody.kim")

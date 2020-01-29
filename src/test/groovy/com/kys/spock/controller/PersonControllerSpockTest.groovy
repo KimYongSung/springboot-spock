@@ -3,16 +3,19 @@ package com.kys.spock.controller
 import com.kys.spock.common.constants.ErrorCode
 import com.kys.spock.common.result.DataResponse
 import com.kys.spock.service.PersonService
+import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import spock.lang.Specification
 
 import static org.mockito.ArgumentMatchers.any
 import static org.mockito.BDDMockito.given
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -25,17 +28,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class PersonControllerSpockTest extends Specification {
 
-    @MockBean
-    private PersonService personService;
+    @SpringBean
+    private PersonService personService = Mock()
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc
 
     def "사용자 등록 요청"(){
 
         given:
-        given(personService.add(any()))
-                .willReturn(DataResponse.ok(1l))
+        personService.add(_) >> DataResponse.ok(1l)
 
         def param = post("/person")
                 .param("name", "kody.kim")
@@ -55,8 +57,7 @@ class PersonControllerSpockTest extends Specification {
     def "이미 등록된 사용자 요청"(){
 
         given:
-        given(personService.add(any()))
-                .willThrow(new IllegalArgumentException("이미 등록된 사람입니다."))
+        personService.add(_) >> { throw new IllegalArgumentException("이미 등록된 사람입니다.") }
 
         def param = post("/person")
                 .param("name", "kody.kim")
@@ -71,5 +72,24 @@ class PersonControllerSpockTest extends Specification {
         resultAction.andExpect(jsonPath('$.code').value(ErrorCode.CD_S999.getCode()))
         resultAction.andExpect(jsonPath('$.message').value(ErrorCode.CD_S999.getMessage()))
         resultAction.andExpect(jsonPath('$.data').doesNotHaveJsonPath())
+    }
+
+    def "name 필수값 누락 에러 발생 "(){
+
+        given:
+        def param = MockMvcRequestBuilders.post("/person")
+                .param("name", "")
+                .param("address", "서울시 강북구 수유동")
+                .param("age", "32")
+
+        when:
+        def resultAction = mockMvc.perform(param)
+                .andDo(print())
+
+        then:
+        resultAction.andExpect(status().is4xxClientError())
+        resultAction.andExpect(jsonPath('$.code').doesNotExist())
+        resultAction.andExpect(jsonPath('$.message').doesNotExist())
+        resultAction.andExpect(jsonPath('$.data').doesNotExist())
     }
 }
