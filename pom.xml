@@ -8,13 +8,15 @@
 		<version>2.2.3.BUILD-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.dkt</groupId>
+	<groupId>com.kys</groupId>
 	<artifactId>spock</artifactId>
 	<version>1.0</version>
 	<name>spock-study</name>
 	<description>spock과 maven 을 활용한 테스트 환경 설정</description>
 
 	<properties>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<jvm.options>-Dproject.name=${project.name}</jvm.options>
 	</properties>

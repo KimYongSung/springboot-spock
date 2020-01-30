@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -21,10 +22,10 @@ import java.util.Objects;
 @Data
 public class PersonAddRequest {
 
-    @NotNull
+    @NotEmpty(message = "name 은 필수 입니다.")
     private String name;
 
-    @NotNull
+    @NotEmpty(message = "address 는 필수 입니다.")
     private String address;
 
     private Integer age;

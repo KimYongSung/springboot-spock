@@ -45,6 +45,14 @@ public class Response {
     public static Response error(BindingResult result) {
         return Objects.isNull(result) ? new Response(ErrorCode.CD_0001) : new Response(result.getFieldError().getDefaultMessage());
     }
+
+    /**
+     * 시스템 에러 생성
+     * @return
+     */
+    public static Response systemError() {
+        return new Response(ErrorCode.CD_S999);
+    }
     /**
      * API 성공 응답 생성
      * @return

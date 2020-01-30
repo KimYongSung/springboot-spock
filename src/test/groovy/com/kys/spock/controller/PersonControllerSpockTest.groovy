@@ -7,13 +7,10 @@ import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import spock.lang.Specification
 
-import static org.mockito.ArgumentMatchers.any
-import static org.mockito.BDDMockito.given
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -46,6 +43,7 @@ class PersonControllerSpockTest extends Specification {
 
         when:
         def resultAction = mockMvc.perform(param)
+                                .andDo(print())
 
         then:
         resultAction.andExpect(status().isOk())
@@ -66,6 +64,7 @@ class PersonControllerSpockTest extends Specification {
 
         when:
         def resultAction = mockMvc.perform(param)
+                                .andDo(print())
 
         then:
         resultAction.andExpect(status().is5xxServerError())
@@ -82,14 +81,15 @@ class PersonControllerSpockTest extends Specification {
                 .param("address", "서울시 강북구 수유동")
                 .param("age", "32")
 
+
         when:
         def resultAction = mockMvc.perform(param)
                 .andDo(print())
 
         then:
         resultAction.andExpect(status().is4xxClientError())
-        resultAction.andExpect(jsonPath('$.code').doesNotExist())
-        resultAction.andExpect(jsonPath('$.message').doesNotExist())
+        resultAction.andExpect(jsonPath('$.code').value(ErrorCode.CD_0001.getCode()))
+        resultAction.andExpect(jsonPath('$.message').value("name 은 필수 입니다."))
         resultAction.andExpect(jsonPath('$.data').doesNotExist())
     }
 }
